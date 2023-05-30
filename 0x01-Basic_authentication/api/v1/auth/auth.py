@@ -11,12 +11,32 @@ class Auth:
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ returns False """
-        return False
+        if path is None or excluded_paths is None or excluded_paths == []:
+            # print("I stayed here all along!")
+            return True
+        
+        if path[-1] != '/':
+            path = path + '/'
+
+        for pat in excluded_paths:
+            if path == pat:
+                # print(pat)
+                # print("I got here")
+                return False
+        # print("I passed the loop")
+        return True
 
 
     def authorization_header(self, request=None) -> str:
-        """ returns None """
-        return None
+        """ returns header request """
+        if request is None:
+            return None
+
+        authorized = request.headers.get('Authorization')
+        if authorized is None:
+            return None
+        
+        return authorized
 
 
     def current_user(self, request=None) -> TypeVar('User'):
