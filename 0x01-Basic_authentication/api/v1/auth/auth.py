@@ -14,7 +14,7 @@ class Auth:
         if path is None or excluded_paths is None or excluded_paths == []:
             # print("I stayed here all along!")
             return True
-        
+
         if path[-1] != '/':
             path = path + '/'
 
@@ -26,7 +26,6 @@ class Auth:
         # print("I passed the loop")
         return True
 
-
     def authorization_header(self, request=None) -> str:
         """ returns header request """
         if request is None:
@@ -35,9 +34,8 @@ class Auth:
         authorized = request.headers.get('Authorization')
         if authorized is None:
             return None
-        
-        return authorized
 
+        return authorized
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ returns None """

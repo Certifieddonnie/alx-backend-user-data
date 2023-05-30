@@ -29,7 +29,9 @@ def filter():
     """
     if auth is None:
         return
-    res = auth.require_auth(request.path, ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'])
+    res = auth.require_auth(request.path,
+                            ['/api/v1/status/', '/api/v1/unauthorized/',
+                                '/api/v1/forbidden/'])
     if res:
         if not auth.authorization_header(request):
             abort(401)
