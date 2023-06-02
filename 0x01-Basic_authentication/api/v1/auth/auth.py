@@ -19,10 +19,12 @@ class Auth:
             path = path + '/'
 
         for pat in excluded_paths:
-            if path == pat:
-                # print(pat)
-                # print("I got here")
-                return False
+            if pat[-1] == '*':
+                bench_mark = len(pat) - 1
+                if path[0:bench_mark] == pat[0:bench_mark]:
+                    # print(pat)
+                    # print("I got here")
+                    return False
         # print("I passed the loop")
         return True
 

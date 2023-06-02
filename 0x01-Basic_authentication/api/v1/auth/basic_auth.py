@@ -52,10 +52,10 @@ class BasicAuth(Auth):
         if not x:
             return (None, None)
         else:
-            lst = re.split(':', decoded_base64_authorization_header)
-            user = lst[0]
-            email = lst[1]
-            return (user, email)
+            lst = decoded_base64_authorization_header.split(':', 1)
+            email = lst[0]
+            password = lst[1]
+            return (email, password)
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
