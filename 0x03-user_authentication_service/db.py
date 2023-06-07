@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -51,3 +51,17 @@ class DB:
         if not user:
             raise NoResultFound
         return user
+
+    def update_user(self, id: int, **kwargs):
+        """ takes as argument a required user_id
+        integer and arbitrary keyword arguments, and
+        returns None
+        """
+        find_user = self.find_user_by(id=id)
+        for k, v in kwargs.items():
+            if not hasattr(find_user, k):
+                raise ValueError
+            setattr(find_user, k, v)
+
+        self._session.commit()
+        return None
