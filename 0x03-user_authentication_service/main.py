@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-from auth import Auth
+""" End-to-end integration test"""
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
+import requests
 
-auth.register_user(email, password)
+BASE_URL = 'http://localhost:5000'
+EMAIL = "guillaume@holberton.io"
+PASSWD = "b4l0u"
+NEW_PASSWD = "t4rt1fl3tt3"
 
-print(auth.create_session(email))
-print(auth.create_session("unknown@email.com"))
+def register_user(email: str, password: str) -> None:
+        """ Test for validating user registration """
+        data = {
+            "email": email,
+            "password": password
+        }
+        response = requests.post(f'{BASE_URL}/users', data=data)
+
+        msg = {"email": email, "message": "user created"}
+
+        assert response.status_code == 200
+        assert response.json() = msg 
