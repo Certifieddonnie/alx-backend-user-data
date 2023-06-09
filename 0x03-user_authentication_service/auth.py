@@ -3,10 +3,11 @@
 import bcrypt
 import uuid
 from db import DB
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
+from typing import Union
 
 
-def _hash_password(password: str) -> bytes:
+def _hash_password(password: str) -> str:
     """ takes in a password string
     arg and returns bytes
     """
@@ -31,7 +32,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> object:
+    def register_user(self, email: str, password: str) -> Union[None, User]:
         """ registers a new user """
         try:
             find_user = self._db.find_user_by(email=email)
@@ -64,7 +65,7 @@ class Auth:
         self._db.update_user(find_user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> object:
+    def get_user_from_session_id(self, session_id: str) -> User:
         """ takes a single session_id string
         argument and returns the corresponding User
         or None
